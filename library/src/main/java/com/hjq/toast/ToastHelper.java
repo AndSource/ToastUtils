@@ -10,10 +10,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 /**
- *    author : HJQ
- *    github : https://github.com/getActivity/ToastUtils
- *    time   : 2018/11/02
- *    desc   : 自定义 Toast 辅助类
+ * author : HJQ
+ * github : https://github.com/getActivity/ToastUtils
+ * time   : 2018/11/02
+ * desc   : 自定义 Toast 辅助类
  */
 final class ToastHelper implements Runnable {
 
@@ -54,14 +54,18 @@ final class ToastHelper implements Runnable {
                 // 解决使用 WindowManager 创建的 Toast 只能显示在当前 Activity 的问题
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-                }else {
+                } else {
                     params.type = WindowManager.LayoutParams.TYPE_PHONE;
                 }
             }
             params.height = WindowManager.LayoutParams.WRAP_CONTENT;
             params.width = WindowManager.LayoutParams.WRAP_CONTENT;
             params.format = PixelFormat.TRANSLUCENT;
-            params.windowAnimations = R.style.ToastAnimation;
+            // @ 取消XML的依赖
+            // @ update by sanbo.
+            // @ update at 2018.11.12
+//            params.windowAnimations = R.style.ToastAnimation;
+            params.windowAnimations = android.R.style.Animation_Toast;
             params.setTitle(Toast.class.getSimpleName());
             params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -75,7 +79,8 @@ final class ToastHelper implements Runnable {
                 // 如果这个 View 对象被重复添加到 WindowManager 则会抛出异常
                 // java.lang.IllegalStateException: View android.widget.TextView{3d2cee7 V.ED..... ......ID 0,0-312,153} has already been added to the window manager.
                 mWindowHelper.getWindowManager().addView(mToast.getView(), params);
-            }catch (IllegalStateException | WindowManager.BadTokenException ignored) {}
+            } catch (IllegalStateException | WindowManager.BadTokenException ignored) {
+            }
 
             // 移除之前移除吐司的任务
             mHandler.removeCallbacks(this);
@@ -93,7 +98,8 @@ final class ToastHelper implements Runnable {
                 // 如果当前 WindowManager 没有附加这个 View 则会抛出异常
                 // java.lang.IllegalArgumentException: View=android.widget.TextView{3d2cee7 V.ED..... ........ 0,0-312,153} not attached to window manager
                 mWindowHelper.getWindowManager().removeView(mToast.getView());
-            }catch (IllegalArgumentException ignored) {}
+            } catch (IllegalArgumentException ignored) {
+            }
         }
     }
 

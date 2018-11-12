@@ -9,10 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- *    author : HJQ
- *    github : https://github.com/getActivity/ToastUtils
- *    time   : 2018/11/03
- *    desc   : Toast基类
+ * author : HJQ
+ * github : https://github.com/getActivity/ToastUtils
+ * time   : 2018/11/03
+ * desc   : Toast基类
  */
 abstract class BaseToast extends Toast implements Runnable {
 
@@ -35,12 +35,17 @@ abstract class BaseToast extends Toast implements Runnable {
     @Override
     public void setView(View view) {
         super.setView(view);
+
         if (view instanceof TextView) {
-            mMessageView = (TextView) view; return;
-        }else if (view.findViewById(R.id.toast_main_text_view_id) instanceof TextView) {
-            mMessageView = ((TextView) view.findViewById(R.id.toast_main_text_view_id)); return;
+            mMessageView = (TextView) view;
+            return;
+        } else if (view.findViewById(R.id.toast_main_text_view_id) instanceof TextView) {
+            mMessageView = ((TextView) view.findViewById(R.id.toast_main_text_view_id));
+            return;
         } else if (view instanceof ViewGroup) {
-            if ((mMessageView = findTextView((ViewGroup) view)) != null) return;
+            if ((mMessageView = findTextView((ViewGroup) view)) != null) {
+                return;
+            }
         }
         // 如果设置的布局没有包含一个 TextView 则抛出异常，必须要包含一个 TextView 作为 Message View
         throw new IllegalArgumentException("The layout must contain a TextView");
@@ -83,7 +88,9 @@ abstract class BaseToast extends Toast implements Runnable {
                 return (TextView) view;
             } else if (view instanceof ViewGroup) {
                 TextView textView = findTextView((ViewGroup) view);
-                if (textView != null) return textView;
+                if (textView != null) {
+                    return textView;
+                }
             }
         }
         return null;

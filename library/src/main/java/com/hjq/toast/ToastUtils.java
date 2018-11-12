@@ -23,10 +23,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- *    author : HJQ
- *    github : https://github.com/getActivity/ToastUtils
- *    time   : 2018/09/01
- *    desc   : Toast工具类
+ * author : HJQ
+ * github : https://github.com/getActivity/ToastUtils
+ * time   : 2018/09/01
+ * desc   : Toast工具类
  */
 public final class ToastUtils {
 
@@ -37,7 +37,7 @@ public final class ToastUtils {
     /**
      * 初始化ToastUtils，建议在Application中初始化
      *
-     * @param application       应用的上下文
+     * @param application 应用的上下文
      */
     public static void init(Application application) {
         // 检查默认样式是否为空，如果是就创建一个默认样式
@@ -48,18 +48,19 @@ public final class ToastUtils {
         // 判断有没有通知栏权限
         if (isNotificationEnabled(application)) {
             sToast = new XToast(application);
-        }else {
+        } else {
             sToast = new SupportToast(application);
         }
 
         sToast.setGravity(sDefaultStyle.getGravity(), sDefaultStyle.getXOffset(), sDefaultStyle.getYOffset());
         sToast.setView(createTextView(application));
+
     }
 
     /**
      * 显示一个对象的吐司
      *
-     * @param object      对象
+     * @param object 对象
      */
     public static void show(Object object) {
         show(object != null ? object.toString() : "null");
@@ -68,8 +69,8 @@ public final class ToastUtils {
     /**
      * 显示一个吐司
      *
-     * @param id      如果传入的是正确的string id就显示对应字符串
-     *                如果不是则显示一个整数的string
+     * @param id 如果传入的是正确的string id就显示对应字符串
+     *           如果不是则显示一个整数的string
      */
     public static void show(int id) {
 
@@ -87,7 +88,7 @@ public final class ToastUtils {
     /**
      * 显示一个吐司
      *
-     * @param text      需要显示的文本
+     * @param text 需要显示的文本
      */
     public static void show(CharSequence text) {
 
@@ -95,7 +96,7 @@ public final class ToastUtils {
 
         if (text == null || text.equals("")) return;
 
-       // 如果显示的文字超过了10个就显示长吐司，否则显示短吐司
+        // 如果显示的文字超过了10个就显示长吐司，否则显示短吐司
         if (text.length() > 20) {
             sToast.setDuration(Toast.LENGTH_LONG);
         } else {
@@ -150,10 +151,10 @@ public final class ToastUtils {
     /**
      * 统一全局的Toast样式，建议在{@link android.app.Application#onCreate()}中初始化
      *
-     * @param style         样式实现类，框架已经实现三种不同的样式
-     *                      黑色样式：{@link ToastBlackStyle}
-     *                      白色样式：{@link ToastWhiteStyle}
-     *                      仿QQ样式：{@link ToastQQStyle}
+     * @param style 样式实现类，框架已经实现三种不同的样式
+     *              黑色样式：{@link ToastBlackStyle}
+     *              白色样式：{@link ToastWhiteStyle}
+     *              仿QQ样式：{@link ToastQQStyle}
      */
     public static void initStyle(IToastStyle style) {
         ToastUtils.sDefaultStyle = style;
@@ -194,7 +195,7 @@ public final class ToastUtils {
         // setBackground API版本兼容
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             textView.setBackground(drawable);
-        }else {
+        } else {
             textView.setBackgroundDrawable(drawable);
         }
 
@@ -212,9 +213,9 @@ public final class ToastUtils {
     /**
      * dp转px
      *
-     * @param context       上下文
-     * @param dpValue       dp值
-     * @return              px值
+     * @param context 上下文
+     * @param dpValue dp值
+     * @return px值
      */
     private static int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -224,9 +225,9 @@ public final class ToastUtils {
     /**
      * sp转px
      *
-     * @param context       上下文
-     * @param spValue       sp值
-     * @return              px值
+     * @param context 上下文
+     * @param spValue sp值
+     * @return px值
      */
     private static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
@@ -237,7 +238,7 @@ public final class ToastUtils {
      * 检查通知栏权限有没有开启
      * 参考SupportCompat包中的： NotificationManagerCompat.from(context).areNotificationsEnabled();
      */
-    public static boolean isNotificationEnabled(Context context){
+    public static boolean isNotificationEnabled(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).areNotificationsEnabled();
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
